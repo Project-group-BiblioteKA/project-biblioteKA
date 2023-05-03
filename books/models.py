@@ -9,4 +9,3 @@ class Book(models.Model):
     description = models.TextField()
     author = models.CharField(max_length=50)
     amount = models.IntegerField(default=None)
-    avaliable = models.IntegerField(null=True, default=0)
