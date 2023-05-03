@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
     class Meta:
         model = Book
         fields = ['id', 'title', 'description', 'author', 'amount', 'available' ]
@@ -13,11 +14,5 @@ class BookSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
-    # id=serializers.IntegerField(read_only=True)
-    # title=serializers.CharField(max_length=50)
-    # description=serializers.CharField()
-    # author = serializers.CharField(max_length=50)
-    # amount=serializers.IntegerField()
-    # available=serializers.IntegerField()
-
+    
 

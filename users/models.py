@@ -23,6 +23,7 @@ class User(AbstractUser):
 
 
 class BookFollower(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     books = models.ForeignKey(
         "books.Book",
         on_delete=models.CASCADE,

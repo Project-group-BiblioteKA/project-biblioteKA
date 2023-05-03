@@ -1,10 +1,10 @@
 from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import BookSerializer
-from permissions import IsAllowed
+from .permissions import IsAllowed
 from rest_framework.permissions import IsAuthenticated
 
-class BookDeatilView(generics.UpdateAPIView):
+class BookDetailView(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAllowed]
 
