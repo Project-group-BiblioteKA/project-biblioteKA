@@ -1,8 +1,10 @@
 from django.db import models
+import uuid
 
 
 # Create your models here.
 class Copy(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     is_avaliable = models.BooleanField(default=False)
 
     books = models.ForeignKey(
@@ -15,6 +17,7 @@ class Copy(models.Model):
 
 
 class LoandBook(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     users = models.ForeignKey(
         "users.User", on_delete=models.CASCADE, related_name="user_loand_book"
     )

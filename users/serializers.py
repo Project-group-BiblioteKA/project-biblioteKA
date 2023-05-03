@@ -8,8 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         validators=[
             UniqueValidator(
-                queryset=User.objects.all(),
-                message='Username already taken.'
+                queryset=User.objects.all(), message="Username already taken."
             )
         ]
     )
@@ -17,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(),
-                message='There is already an account registered to this email.'
+                message="There is already an account registered to this email.",
             )
         ]
     )
@@ -33,9 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         for key, value in validated_data.items():
             setattr(instance, key, value)
 
-        instance.set_password(
-            validated_data.get('password', instance.password)
-        )
+        instance.set_password(validated_data.get("password", instance.password))
         instance.save()
 
         return instance
@@ -43,15 +40,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id',
-            'username',
-            'password',
-            'first_name',
-            'last_name',
-            'email',
-            'is_staff',
-            'is_superuser',
-            'is_blocked',
-            'books',
+            "id",
+            "username",
+            "password",
+            "first_name",
+            "last_name",
+            "email",
+            "is_staff",
+            "is_superuser",
+            "is_blocked",
+            "books",
         ]
-        read_only_fields = ['uuid', 'is_superuser']
+        read_only_fields = ["uuid", "is_superuser"]
