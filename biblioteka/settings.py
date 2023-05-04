@@ -48,6 +48,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+     'drf_spectacular'
 ]
 
 MY_APPS = ["books", "copies", "users"]
@@ -148,6 +149,13 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Project - Biblioteka',
+    'DESCRIPTION': 'In this environment you will find the books you always dreamed of reading and knowing, come and make a deal with us!',
+    'VERSION': '2.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
