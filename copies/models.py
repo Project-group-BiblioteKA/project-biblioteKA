@@ -25,5 +25,5 @@ class LoandBook(models.Model):
         "copies.Copy", on_delete=models.CASCADE, related_name="copy_loand_book"
     )
 
-    devoluiton_date = models.DateField()
+    devolution_date = models.DateField()
     borrowed_date = models.DateField(auto_now_add=True)
