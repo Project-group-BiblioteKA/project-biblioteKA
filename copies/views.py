@@ -24,9 +24,11 @@ class LoandView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         pk = self.kwargs["user_id"]
         user = get_object_or_404(User, id=pk)
+
         copy_id = self.request.data["copy_id"]
         copy = get_object_or_404(Copy, id=copy_id)
-        copy.is_avaliable = False
+
+        copy.is_available = False
         copy.save()
 
         serializer.save(users=user, copy=copy)
