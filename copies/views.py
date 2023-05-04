@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from rest_framework import generics
-import copies
-
 from copies.models import Copy, LoandBook
 from copies.serializers import LoandSerializer
 from django.shortcuts import get_object_or_404
