@@ -6,10 +6,15 @@ from .models import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
-class BookCreateView(generics.ListCreateAPIView):
+class BookCreateView(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAllowed]
 
+    serializer_class = BookSerializer
+
+
+class BookRetrieveView(generics.ListAPIView):
+    
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
