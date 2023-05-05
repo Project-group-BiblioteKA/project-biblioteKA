@@ -1,18 +1,20 @@
+from django.shortcuts import get_object_or_404
+
+from books.models import Book
 from .models import User
-from .serializers import UserSerializer
+from .serializers import *
+from .permissions import *
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
-from rest_framework.permissions import IsAdminUser
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-    RetrieveAPIView,
-)
+from .models import *
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 
-class ListCreateUserview(ListCreateAPIView):
+from rest_framework import generics
+
+
+
+class ListCreateUserview(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
 
@@ -20,7 +22,7 @@ class ListCreateUserview(ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetailView(RetrieveUpdateDestroyAPIView):
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
 
@@ -30,7 +32,7 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "user_id"
 
 
-class UserStatusView(RetrieveAPIView):
+class UserStatusView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     lookup_field = "id"
     lookup_url_kwarg = "user_id"
@@ -42,3 +44,35 @@ class UserStatusView(RetrieveAPIView):
     def get(self, req, *args, **kwargs):
         instance = self.get_object()
         return Response(self.to_representation(instance), status=200)
+
+class BookFollowersView(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = FollowerBookSerializer
+
+    model = BookFollower
+    lookup_url_kwarg = "book_id"
+    fields = ["books"]
+    queryset = BookFollower.objects.all()
+
+    def perform_create(self, serializer):
+        book_id = self.kwargs["book_id"]
+        user = get_object_or_404(User, id=self.request.user.id)
+        book = get_object_or_404(Book, id=book_id)
+        serializer.save(users=user, books=book)
+
+
+class FollowerRetrieveView(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsColaborator]
+
+    lookup_url_kwarg = "book_id"
+
+    def get_queryset(self):
+        book = self.kwargs["book_id"]
+        book = get_object_or_404(Book, id=book)
+        users = {BookFollower.objects.filter(books=book).values("users")}
+        
+        return Response(users)
+   

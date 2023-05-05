@@ -21,3 +21,8 @@
 ### Instalação das dependências da aplicação
 
 `pip install -r requirements.txt`
+
+### Criação automática de um usuário Admin
+
+Abra o terminal, e coloque o código:
+`python manage.py create_admin_user`
