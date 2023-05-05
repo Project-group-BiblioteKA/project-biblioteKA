@@ -14,7 +14,7 @@ class BookSerializer(serializers.ModelSerializer):
         num_copies = validated_data["amount"]
         book = Book.objects.create(**validated_data)
         for i in range(num_copies):
-            Copy.objects.create(books=book)
+            Copy.objects.create(books=book, is_avaliable=True)
         return book
 
     def update(self, instance: Book, validated_data: dict) -> Book:
