@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import User
+from books.serializers import BookSerializer
+from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -52,3 +53,15 @@ class UserSerializer(serializers.ModelSerializer):
             "books",
         ]
         read_only_fields = ["uuid", "is_superuser"]
+
+class FollowerBookSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only = True)
+    books= BookSerializer(read_only=True)
+    users= UserSerializer(read_only=True)
+    class Meta:
+        model = BookFollower
+        fields = [
+            "id",
+            "books",
+            "users"
+        ]
