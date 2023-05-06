@@ -30,5 +30,7 @@ class BookFollower(models.Model):
         related_name="book_follow",
     )
     users = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, related_name="user_follower"
+        "users.User",
+        on_delete=models.CASCADE,
+        related_name="user_follower",
     )

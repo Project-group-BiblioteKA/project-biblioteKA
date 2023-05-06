@@ -27,3 +27,4 @@ class LoandBook(models.Model):
 
     devolution_date = models.DateField(null=True, blank=True, default=None)
     borrowed_date = models.DateField(auto_now_add=True)
+    is_return = models.BooleanField(default=False)
