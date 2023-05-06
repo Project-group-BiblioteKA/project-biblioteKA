@@ -54,14 +54,12 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["uuid", "is_superuser"]
 
+
 class FollowerBookSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(read_only = True)
-    books= BookSerializer(read_only=True)
-    users= UserSerializer(read_only=True)
+    id = serializers.UUIDField(read_only=True)
+    books = BookSerializer(read_only=True)
+    users = UserSerializer(read_only=True)
+
     class Meta:
         model = BookFollower
-        fields = [
-            "id",
-            "books",
-            "users"
-        ]
+        fields = ["id", "books", "users"]

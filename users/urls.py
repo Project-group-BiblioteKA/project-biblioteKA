@@ -7,6 +7,6 @@ urlpatterns = [
     path("users/<user_id>/", views.UserDetailView.as_view()),
     path("users/status/<user_id>/", views.UserStatusView.as_view()),
     path("follower/<book_id>/", views.BookFollowersView.as_view()),
-    path("follower/<book_id>/", views.FollowerRetrieveView.as_view()),
+    path("followers/<book_id>/", views.FollowerRetrieveView.as_view()),
     path("login/", jwt_views.TokenObtainPairView.as_view()),
 ]

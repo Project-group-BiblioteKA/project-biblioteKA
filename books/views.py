@@ -14,7 +14,6 @@ class BookCreateView(generics.CreateAPIView):
 
 
 class BookRetrieveView(generics.ListAPIView):
-    
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
@@ -29,4 +28,3 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-
