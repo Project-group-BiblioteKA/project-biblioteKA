@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from datetime import datetime, timedelta
 from copies.models import LoandBook
+from users.serializers import UserSerializer
 
 
-class LoandSerializer(serializers.ModelSerializer):
+class LoanSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
     borrowed_date = serializers.DateField(read_only=True)
     devolution_date = serializers.DateField(read_only=True)
 
@@ -32,4 +34,5 @@ class LoandSerializer(serializers.ModelSerializer):
             "borrowed_date",
             "copy_id",
             "users_id",
+            "is_return",
         ]

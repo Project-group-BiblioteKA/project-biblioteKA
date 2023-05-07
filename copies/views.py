@@ -1,7 +1,9 @@
+import uuid
 from django.shortcuts import render
 from rest_framework import generics, status
+from books.models import Book
 from copies.models import Copy, LoandBook
-from copies.serializers import LoandSerializer
+from copies.serializers import LoanSerializer
 from django.shortcuts import get_object_or_404
 from users.models import User
 from users.permissions import IsColaborator, IsStudentAble
@@ -10,24 +12,33 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 
 
-# Create your views here.
-class LoandView(generics.ListCreateAPIView):
+class LoanView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    serializer_class = LoandSerializer
+    serializer_class = LoanSerializer
     permission_classes = [IsAuthenticated, IsStudentAble]
     lookup_url_kwarg = "user_id"
-
-    def get_queryset(self):
-        pk = self.kwargs["user_id"]
-        user = get_object_or_404(User, id=pk)
-        return LoandBook.objects.filter(users_id=user)
+    queryset = LoandBook.objects.all()
 
     def perform_create(self, serializer):
-        pk = self.kwargs["user_id"]
+        pk = self.request.user.id
         user = get_object_or_404(User, id=pk)
 
-        copy_id = self.request.data["copy_id"]
-        copy = get_object_or_404(Copy, id=copy_id)
+        book_id = self.request.data.get("book_id")
+        book = get_object_or_404(Book, id=book_id)
+
+        copy = (
+            Copy.objects.filter(
+                books_id=book.id,
+                is_available=True,
+            )
+            .order_by("id")
+            .first()
+        )
+
+        if not copy:
+            return Response(
+                {"error": "Copy does not exist or is not available"}, status=404
+            )
 
         copy.is_available = False
         copy.save()
@@ -37,7 +48,7 @@ class LoandView(generics.ListCreateAPIView):
 
 class LoandDetailView(generics.RetrieveAPIView):
     authentication_classes = [JWTAuthentication]
-    serializer_class = LoandSerializer
+    serializer_class = LoanSerializer
     lookup_url_kwarg = "user_id"
     permission_classes = [IsAuthenticated, IsColaborator]
     queryset = LoandBook.objects.all()
@@ -45,7 +56,7 @@ class LoandDetailView(generics.RetrieveAPIView):
 
 class CheckoutBook(generics.GenericAPIView):
     authentication_classes = [JWTAuthentication]
-    serializer_class = LoandSerializer
+    serializer_class = LoanSerializer
 
     def get_queryset(self):
         user_id = self.kwargs["user_id"]

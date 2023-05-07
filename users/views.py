@@ -14,7 +14,7 @@ from rest_framework import generics
 
 class ListCreateUserview(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsColaborator]
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
