@@ -47,10 +47,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = [
-    "rest_framework",
-     'drf_spectacular'
-]
+THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular"]
 
 MY_APPS = ["books", "copies", "users"]
 
@@ -151,10 +148,10 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Project - Biblioteka',
-    'DESCRIPTION': 'In this environment you will find the books you always dreamed of reading and knowing, come and make a deal with us!',
-    'VERSION': '2.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Project - Biblioteka",
+    "DESCRIPTION": "In this environment you will find the books you always dreamed of reading and knowing, come and make a deal with us!",
+    "VERSION": "2.0",
+    "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
 }
 
@@ -186,9 +183,9 @@ AUTH_USER_MODEL = "users.User"
 # Email
 
 DEFAULT_FROM_EMAIL = "bibliotekam528@outlook.com"
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_HOST = config("EMAIL_HOST")
