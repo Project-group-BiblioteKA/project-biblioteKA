@@ -20,6 +20,11 @@ class ListCreateUserview(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
+class CreateUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]

@@ -30,17 +30,21 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_superuser(**validated_data)
 
     def update(self, instance: User, validated_data: dict) -> User:
-        if (self.context["request"].user.is_staff and self.context["request"].user.is_superuser) or validated_data.get("is_staff") == None:
+        if (
+            self.context["request"].user.is_staff
+            and self.context["request"].user.is_superuser
+        ) or validated_data.get("is_staff") == None:
             for key, value in validated_data.items():
                 setattr(instance, key, value)
 
             instance.set_password(validated_data.get("password", instance.password))
             instance.save()
             return instance
-       
+
         else:
-            raise serializers.ValidationError("you has not permission to modificated the field 'is_staff'")
-    
+            raise serializers.ValidationError(
+                "you has not permission to modificated the field 'is_staff'"
+            )
 
     class Meta:
         model = User
