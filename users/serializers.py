@@ -24,10 +24,16 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data: dict) -> User:
-        return User.objects.create_user(**validated_data)
+        if validated_data.get("is_staff") == None:
+            return User.objects.create_user(**validated_data)
+        else:
+            raise serializers.ValidationError("Testando 10")
 
     def create_superuser(self, validated_data: dict) -> User:
-        return User.objects.create_superuser(**validated_data)
+        if self.context["request"].user.is_staff and self.context["request"].user.is_superuser:
+            return User.objects.create_superuser(**validated_data)
+        else:
+            raise serializers.ValidationError("Testando 5")
 
     def update(self, instance: User, validated_data: dict) -> User:
         if (self.context["request"].user.is_staff and self.context["request"].user.is_superuser) or validated_data.get("is_staff") == None:

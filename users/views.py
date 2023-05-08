@@ -31,6 +31,9 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserStatusView(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsColaborator]
+
     queryset = User.objects.all()
     lookup_field = "id"
     lookup_url_kwarg = "user_id"
