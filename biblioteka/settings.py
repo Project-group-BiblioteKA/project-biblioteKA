@@ -16,6 +16,7 @@ import os
 import dotenv
 from django.core.management.utils import get_random_secret_key
 import dj_database_url
+from decouple import config
 
 dotenv.load_dotenv()
 
@@ -181,3 +182,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "users.User"
+
+# Email
+
+DEFAULT_FROM_EMAIL = "bibliotekam528@outlook.com"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST = config('EMAIL_HOST')

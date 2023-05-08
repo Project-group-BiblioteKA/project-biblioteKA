@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from books.serializers import BookSerializer
 from .models import *
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,26 +26,32 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data: dict) -> User:
-        if validated_data.get("is_staff") == None:
-            return User.objects.create_user(**validated_data)
+        if validated_data.get("is_staff") == True and not self.context["request"].user.is_superuser:
+            raise serializers.ValidationError({"error": "You have no permission to create a collaborator"})
         else:
-            raise serializers.ValidationError("Testando 10")
+            user = User.objects.create_user(**validated_data)
+            self.send_confirmation_email(user)
+            return user
+
+    def send_confirmation_email(self, user: User):
+        subject = "Confirmação de conta"
+        message = 'Olá {0},\n\nSua conta foi criada com sucesso.'.format(user.username)
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [user.email]
+        send_mail(subject, message, from_email, recipient_list)
 
     def create_superuser(self, validated_data: dict) -> User:
         if self.context["request"].user.is_staff and self.context["request"].user.is_superuser:
             return User.objects.create_superuser(**validated_data)
         else:
-            raise serializers.ValidationError("Testando 5")
-
+            raise serializers.ValidationError({"error": "You have no permission to create a admin"})
     def update(self, instance: User, validated_data: dict) -> User:
         if (self.context["request"].user.is_staff and self.context["request"].user.is_superuser) or validated_data.get("is_staff") == None:
             for key, value in validated_data.items():
                 setattr(instance, key, value)
-
             instance.set_password(validated_data.get("password", instance.password))
             instance.save()
             return instance
-       
         else:
             raise serializers.ValidationError("you has not permission to modificated the field 'is_staff'")
     
@@ -62,7 +70,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_blocked",
             "books",
         ]
-        read_only_fields = ["uuid", "is_superuser"]
+        read_only_fields = ["uuid"]
 
 
 class FollowerBookSerializer(serializers.ModelSerializer):
