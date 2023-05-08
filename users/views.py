@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 
 from books.models import Book
+from books.serializers import BookNewSerializer
 from .models import User
 from .serializers import *
 from .permissions import *
@@ -8,15 +9,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import *
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-
-
 from rest_framework import generics
-
 
 
 class ListCreateUserview(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsColaborator]
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -45,6 +43,7 @@ class UserStatusView(generics.RetrieveAPIView):
         instance = self.get_object()
         return Response(self.to_representation(instance), status=200)
 
+
 class BookFollowersView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -66,13 +65,6 @@ class BookFollowersView(generics.ListCreateAPIView):
 class FollowerRetrieveView(generics.RetrieveAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsColaborator]
-
+    serializer_class = BookNewSerializer
     lookup_url_kwarg = "book_id"
-
-    def get_queryset(self):
-        book = self.kwargs["book_id"]
-        book = get_object_or_404(Book, id=book)
-        users = {BookFollower.objects.filter(books=book).values("users")}
-        
-        return Response(users)
-   
+    queryset = Book
