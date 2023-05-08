@@ -1,6 +1,6 @@
 # project-biblioteKA
 
-O BiblioteKA é um projeto voltado para livrarias. Em sua primeira versão, contamos com um sistema fechado no qual todo o controle é do administrador e dos colaboradores. Somente clientes físicos têm acesso ao site, devido ao cadastro presencial autorizado pelo administrador.
+O BiblioteKA é um projeto voltado para livrarias. Em sua primeira versão, contamos com um sistema fechado no qual todo o controle é do administrador e dos colaboradores, estudantes podem criar contas porém com limitações;
 
 Nessa aplicação, os estudantes podem seguir os livros que desejam ler futuramente, listar todos os livros da livraria e solicitar empréstimo de livros. Dessa forma, é possível ter acesso ao livro já com uma data pré-determinada de devolução de 7 dias.
 
