@@ -10,7 +10,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ["id", "title", "description", "author", "amount"]
+        fields = ["id", "title", "synopse", "author", "amount"]
 
     def create(self, validated_data):
         num_copies = validated_data["amount"]
@@ -42,7 +42,7 @@ class BookNewSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
-            "description",
+            "synopse",
             "author",
             "amount",
             "book_follow",
@@ -50,7 +50,7 @@ class BookNewSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "title",
-            "description",
+            "synopse",
             "author",
             "amount",
             "book_follow",
