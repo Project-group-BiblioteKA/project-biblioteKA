@@ -1,3 +1,5 @@
+import datetime
+import time
 import uuid
 from django.shortcuts import render
 from rest_framework import generics, status
@@ -10,6 +12,9 @@ from users.permissions import IsColaborator, IsStudentAble
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
+from datetime import date
+from rest_framework.exceptions import ValidationError, NotFound
+from django.utils import timezone
 
 
 class LoanView(generics.ListCreateAPIView):
@@ -26,6 +31,17 @@ class LoanView(generics.ListCreateAPIView):
         book_id = self.request.data.get("book_id")
         book = get_object_or_404(Book, id=book_id)
 
+        user_is_valid = LoandBook.objects.filter(users_id=pk, is_return=False).first()
+
+        if user_is_valid:
+            today = timezone.now().date()
+            date_devolution = user_is_valid.devolution_date.today()
+
+            if date_devolution <= today:
+                user.is_blocked = True
+                user.save()
+                raise ValidationError({"error": "user with pending loan"})
+
         copy = (
             Copy.objects.filter(
                 books_id=book.id,
@@ -36,9 +52,7 @@ class LoanView(generics.ListCreateAPIView):
         )
 
         if not copy:
-            return Response(
-                {"error": "Copy does not exist or is not available"}, status=404
-            )
+            raise NotFound({"error": "Copy does not exist or is not available"})
 
         copy.is_available = False
         copy.save()
@@ -65,7 +79,7 @@ class CheckoutBook(generics.GenericAPIView):
         loan = LoandBook.objects.filter(copy_id=copy_id, users_id=user.id)
         return loan
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         queryset = self.get_queryset()
 
         if queryset.exists():
