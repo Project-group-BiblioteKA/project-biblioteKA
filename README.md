@@ -52,3 +52,7 @@ Jozhué Beni: https://www.linkedin.com/in/jozhué-beni-f-n-b-mota-8584a5241/
 
 Abra o terminal, e coloque o código:
 `python manage.py create_admin_user`
+
+## Adicionando informações no campo de email
+
+É necessário para que a aplicação funcione, preencha as informações do .env (EMAIL)
