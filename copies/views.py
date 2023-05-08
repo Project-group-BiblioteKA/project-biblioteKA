@@ -1,7 +1,3 @@
-import datetime
-import time
-import uuid
-from django.shortcuts import render
 from rest_framework import generics, status
 from books.models import Book
 from copies.models import Copy, LoandBook
@@ -12,7 +8,6 @@ from users.permissions import IsColaborator, IsStudentAble
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
-from datetime import date
 from rest_framework.exceptions import ValidationError, NotFound
 from django.utils import timezone
 
