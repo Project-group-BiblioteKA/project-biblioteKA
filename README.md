@@ -17,6 +17,7 @@ Link da doc: https://biblioteka-3ar8.onrender.com/api/docs/swagger-ui/#
     - djangorestframework-simplejwt.
     - postgree.
     - drf-spectacular.
+    - Python-decouple.
 
 ## Sobre o time
 
