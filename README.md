@@ -6,7 +6,7 @@ Nessa aplicação, os estudantes podem seguir os livros que desejam ler futurame
 
 Os colaboradores são criados exclusivamente pelo administrador, que tem acesso total à aplicação. Com a função de colaborador, podem <u>criar</u> usuários, <u>cadastrar</u> livros, <u>editá-los</u> e <u>excluí-los</u>. Também têm acesso à rota de empréstimo, onde inserem as informações do cliente no sistema.
 
-Link da doc:https://biblioteka-3ar8.onrender.com/api/docs/swagger-ui/#
+Link da doc: https://biblioteka-3ar8.onrender.com/api/docs/swagger-ui/#
 
 ## Tecnologias
 
