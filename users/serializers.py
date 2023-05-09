@@ -35,15 +35,15 @@ class UserSerializer(serializers.ModelSerializer):
             )
         else:
             user = User.objects.create_user(**validated_data)
-            self.send_confirmation_email(user)
+            # self.send_confirmation_email(user)
             return user
 
-    def send_confirmation_email(self, user: User):
-        subject = "Confirmação de conta"
-        message = "Olá {0},\n\nSua conta foi criada com sucesso.".format(user.username)
-        from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = [user.email]
-        send_mail(subject, message, from_email, recipient_list)
+    # def send_confirmation_email(self, user: User):
+    #     subject = "Confirmação de conta"
+    #     message = "Olá {0},\n\nSua conta foi criada com sucesso.".format(user.username)
+    #     from_email = settings.DEFAULT_FROM_EMAIL
+    #     recipient_list = [user.email]
+    #     send_mail(subject, message, from_email, recipient_list)
 
     def create_superuser(self, validated_data: dict) -> User:
         if (
