@@ -11,7 +11,7 @@ class LoanSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         borrowed_date = datetime.today().date()
-        devolution_date = borrowed_date - timedelta(days=1)
+        devolution_date = borrowed_date - timedelta(days=7)
         if devolution_date.weekday() == 5:
             devolution_date = devolution_date + timedelta(days=2)
         if devolution_date.weekday() == 6:
